@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="gdcp_ssm:war">
+    <output-path>$PROJECT_DIR$/gdcp_ssm/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>gdcp_ssm</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="gdcp_ssm.war">
+      <element id="artifact" artifact-name="gdcp_ssm:war exploded" />
+    </root>
+  </artifact>
+</component>

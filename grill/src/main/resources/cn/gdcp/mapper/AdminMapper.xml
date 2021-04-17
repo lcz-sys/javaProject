@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gdcp.mapper.AdminMapper">
+    <select id="getByUsernameAndPassword" parameterType="string" resultType="admin">
+        select * from admins where username = #{username} and password = #{password}
+    </select>
+
+    <select id="getByUsername" parameterType="string" resultType="admin">
+        select * from admins where username = #{username}
+    </select>
+
+    <insert id="addAdmin" parameterType="admin" useGeneratedKeys="true" keyProperty="id">
+        insert into admins values (#{id},#{username},#{password},#{email},#{phone},#{create_time})
+    </insert>
+
+    <select id="findAllAdmins" resultType="admin">
+        select * from admins order by create_time asc
+    </select>
+
+    <select id="get" parameterType="int" resultType="admin">
+        select * from admins where id = #{id}
+    </select>
+
+    <update id="updateAdmin" parameterType="admin">
+        update admins set
+        <if test="username!=null">
+            username = #{username}
+        </if>
+        <if test="phone!=null">
+            , phone = #{phone}
+        </if>
+        <if test="email!=null">
+            , email = #{email}
+        </if>
+        <if test="password!=null">
+            , password = #{password}
+        </if>
+        <where>
+            <if test="username!=null">
+                username = #{username}
+            </if>
+        </where>
+    </update>
+
+    <select id="selectAdminByUsernameOrTime" parameterType="string" resultType="admin">
+        select * from admins
+        <where>
+            <if test="username != null and username.trim().length() > 0">
+                username like "%"#{username}"%"
+            </if>
+            <if test="start_time != null and start_time.trim().length() > 0">
+                    and create_time >= #{start_time}
+            </if>
+            <if test="end_time != null and end_time.trim().length() > 0">
+                and #{end_time} >= create_time
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteAdmin" parameterType="int">
+        delete from admins where id = #{id}
+    </delete>
+
+</mapper>

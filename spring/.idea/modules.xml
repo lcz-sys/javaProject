@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/gdcp_mybatis_anno/gdcp_mybatis_anno.iml" filepath="$PROJECT_DIR$/gdcp_mybatis_anno/gdcp_mybatis_anno.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_mybatis_config/gdcp_mybatis_config.iml" filepath="$PROJECT_DIR$/gdcp_mybatis_config/gdcp_mybatis_config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_mybatis_quick/gdcp_mybatis_quick.iml" filepath="$PROJECT_DIR$/gdcp_mybatis_quick/gdcp_mybatis_quick.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_spring_aop/gdcp_spring_aop.iml" filepath="$PROJECT_DIR$/gdcp_spring_aop/gdcp_spring_aop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_spring_ioc/gdcp_spring_ioc.iml" filepath="$PROJECT_DIR$/gdcp_spring_ioc/gdcp_spring_ioc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_spring_ioc_anno/gdcp_spring_ioc_anno.iml" filepath="$PROJECT_DIR$/gdcp_spring_ioc_anno/gdcp_spring_ioc_anno.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_spring_jdbc/gdcp_spring_jdbc.iml" filepath="$PROJECT_DIR$/gdcp_spring_jdbc/gdcp_spring_jdbc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_spring_mvc/gdcp_spring_mvc.iml" filepath="$PROJECT_DIR$/gdcp_spring_mvc/gdcp_spring_mvc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_spring_test/gdcp_spring_test.iml" filepath="$PROJECT_DIR$/gdcp_spring_test/gdcp_spring_test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdcp_ssm/gdcp_ssm.iml" filepath="$PROJECT_DIR$/gdcp_ssm/gdcp_ssm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/spring.iml" filepath="$PROJECT_DIR$/.idea/spring.iml" />
+    </modules>
+  </component>
+</project>

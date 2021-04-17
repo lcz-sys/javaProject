@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gdcp.mapper.UserMapper">
+    <insert id="addUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+        insert into users values (#{id},#{username},#{password},#{name},#{phone},#{address},#{create_time},#{message})
+    </insert>
+
+    <select id="findAllUsers" resultType="user">
+        select * from users order by create_time asc
+    </select>
+
+    <select id="findUserByUsername" resultType="user">
+        select * from users where username = #{username}
+    </select>
+
+    <select id="get" parameterType="int" resultType="user">
+        select * from users where id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="user">
+        update users set
+        <if test="name!=null">
+            name = #{name}
+        </if>
+        <if test="phone!=null">
+            , phone = #{phone}
+        </if>
+        <if test="address!=null">
+            , address = #{address}
+        </if>
+        <if test="message!=null">
+            , message = #{message}
+        </if>
+        <if test="password!=null">
+            , password = #{password}
+        </if>
+        <where>
+            <if test="id!=null">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <select id="selectUserByUsernameOrTime" parameterType="string" resultType="user">
+        select * from users
+        <where>
+            <if test="username != null and username.trim().length() > 0">
+                username like "%"#{username}"%"
+            </if>
+            <if test="start_time != null and start_time.trim().length() > 0">
+                and create_time >= #{start_time}
+            </if>
+            <if test="end_time != null and end_time.trim().length() > 0">
+                and #{end_time} >= create_time
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from users where id = #{id}
+    </delete>
+
+    <select id="findUserByPhone" parameterType="string" resultType="user">
+        select * from users where phone = #{phone} limit 0,1
+    </select>
+
+    <select id="selectPass" parameterType="int" resultType="string">
+        select password from users where id = #{id}
+    </select>
+
+    <update id="updatePass" parameterType="user">
+        update users set password = #{password} where id = #{id}
+    </update>
+
+    <update id="updateAddress">
+        update users set name = #{name}, phone = #{phone}, address= #{address} where id = #{id}
+    </update>
+</mapper>

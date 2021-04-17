@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    <bean id="userDao" class="cn.gdcp.dao.impl.UserDaoImpl" scope="singleton"></bean>-->
+<!--    <bean id="userDao" class="cn.gdcp.dao.impl.UserDaoImpl" init-method="init" destroy-method="destroy"></bean>-->
+
+<!--    <bean id="userDao" class="cn.gdcp.factory.StaticFactory" factory-method="getUserDao"></bean>-->
+<!--    <bean id="factory" class="cn.gdcp.factory.DynamicFactory"></bean>-->
+<!--    <bean id="userDao" factory-bean="factory" factory-method="getUserDao"></bean>-->
+
+    <bean name="user1" class="cn.gdcp.domain.User">
+        <property name="name" value="tom"/>
+        <property name="addr" value="beijing"/>
+    </bean>
+    <bean name="user2" class="cn.gdcp.domain.User">
+        <property name="name" value="jack"/>
+        <property name="addr" value="shanghai"/>
+    </bean>
+
+    <bean id="userDao" class="cn.gdcp.dao.impl.UserDaoImpl">
+        <property name="strList">
+            <list>
+                <value>zhangsan</value>
+                <value>lisi</value>
+                <value>wangwu</value>
+            </list>
+        </property>
+        <property name="userMap">
+            <map>
+                <entry key="user1" value-ref="user1"/>
+                <entry key="user2" value-ref="user2"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">p1</prop>
+                <prop key="p2">p2</prop>
+                <prop key="p3">p3</prop>
+            </props>
+        </property>
+    </bean>
+<!--    <bean id="userService" class="cn.gdcp.service.impl.UserServiceImpl">-->
+<!--        <property name="userDao" ref="userDao"/>-->
+<!--    </bean>-->
+    <bean id="userService" class="cn.gdcp.service.impl.UserServiceImpl" p:userDao-ref="userDao"/>
+
+<!--    <bean id="userService" class="cn.gdcp.service.impl.UserServiceImpl">-->
+<!--        <constructor-arg name="userDao" ref="userDao"/>-->
+<!--    </bean>-->
+
+    <import resource="applicationContext-user.xml"/>
+    <import resource="applicationContext-product.xml"/>
+
+</beans>

@@ -1,0 +1,8 @@
+异常的方法:add
+异常的名称:java.lang.ArithmeticException
+异常的原因:/ by zero
+--------------------------------
+异常的方法:add
+异常的名称:java.lang.ArithmeticException
+异常的原因:/ by zero
+--------------------------------

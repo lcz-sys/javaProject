@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gdcp.mapper.OrderMapper">
+
+    <resultMap id="orderBaseMap" type="order">
+        <id column="id" property="id"/>
+        <result column="total" property="total"/>
+        <result column="amount" property="amount"/>
+        <result column="status" property="status"/>
+        <result column="paytype" property="paytype"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="systime" property="systime"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <resultMap id="itemBaseMap" type="item">
+        <id column="id" property="id"/>
+        <result column="price" property="price"/>
+        <result column="amount" property="amount"/>
+        <result column="order_id" property="orderId"/>
+        <result column="good_id" property="goodId"/>
+        <association property="good" javaType="good" column="good_id" select="queryGoods"/>
+    </resultMap>
+
+    <resultMap id="goodBaseMap" type="good">
+        <id column="id" property="id"/>
+        <result column="cover" property="cover"/>
+        <result column="name" property="name"/>
+        <result column="intro" property="intro"/>
+        <result column="spec" property="spec"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="sales" property="sales"/>
+        <result column="content" property="content"/>
+        <result column="type_id" property="typeId"/>
+    </resultMap>
+
+    <select id="queryUsers" resultType="user">
+        select * from users where id = #{user_id}
+    </select>
+
+    <select id="queryItems" resultMap="itemBaseMap">
+        select * from items where order_id = #{id}
+    </select>
+
+    <select id="queryGoods" resultMap="goodBaseMap">
+        select * from goods where id = #{good_id}
+    </select>
+
+    <resultMap id="orderMap" extends="orderBaseMap" type="order">
+        <association property="user" javaType="user" column="user_id" select="queryUsers"/>
+        <collection property="itemList" ofType="item" column="id" select="queryItems"/>
+    </resultMap>
+
+    <select id="getOrderList" resultMap="orderMap">
+       select * from orders order by systime desc
+   </select>
+
+    <select id="getListByStatus" parameterType="byte" resultMap="orderMap">
+       select * from orders where status = #{status} order by systime desc
+   </select>
+
+    <select id="getListByUserId" resultMap="orderMap">
+        select * from orders where user_id = #{userId}
+    </select>
+
+    <resultMap id="orderSearchMap" extends="orderBaseMap" type="order">
+        <association property="user" javaType="user" column="{id=user_id,username=username}" select="SearchUsers"/>
+        <collection property="itemList" ofType="item" column="id" select="queryItems">
+            <association property="good" javaType="good" column="good_id" select="queryGoods"/>
+        </collection>
+    </resultMap>
+
+    <select id="SearchUsers" parameterType="hashMap" resultType="user">
+        select * from users where id = #{id}
+        <if test="username != null and username.trim().length() > 0">
+            and username like "%"#{username}"%"
+        </if>
+    </select>
+
+    <select id="selectOrderByUsernameOrTime" resultMap="orderSearchMap">
+        select *,
+        ifnull (#{username},'') username
+        from orders
+        <where>
+            <if test="start_time != null and start_time.trim().length() > 0">
+                and systime >= #{start_time}
+            </if>
+            <if test="end_time != null and end_time.trim().length() > 0">
+                and #{end_time} >= systime
+            </if>
+        </where>
+        order by systime desc
+    </select>
+
+    <select id="selectOrderByMore" resultMap="orderSearchMap">
+        select *,
+        ifnull(#{username},'') username
+        from orders
+        <where>
+            <if test="status != -1">
+                and status = #{status}
+            </if>
+            <if test="start_time != null and start_time.trim().length() > 0">
+                and systime >= #{start_time}
+            </if>
+            <if test="end_time != null and end_time.trim().length() > 0">
+                and #{end_time} >= systime
+            </if>
+        </where>
+        order by systime desc
+    </select>
+
+    <select id="get" parameterType="int" resultMap="orderMap">
+        select * from orders where id = #{id}
+    </select>
+
+    <update id="send" parameterType="int">
+        update orders set status = 3 where id = #{id}
+    </update>
+
+    <update id="complete" parameterType="int">
+        update orders set status = 4 where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from orders where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="order" useGeneratedKeys="true" keyProperty="id">
+        insert into orders (total,amount,status,paytype,name,phone,address,systime,user_id) values (#{total},#{amount},#{status},#{paytype},#{name},#{phone},#{address},#{systime},#{userId})
+    </insert>
+
+    <update id="update" parameterType="order">
+        update orders set status=#{status},paytype=#{paytype},name=#{name},phone=#{phone},address=#{address} where id =#{id}
+    </update>
+
+    <!--<resultMap id="orderMap" type="order">
+        <id column="order_id" property="id"/>
+        <result column="total" property="total"/>
+        <result column="amount" property="amount"/>
+        <result column="status" property="status"/>
+        <result column="paytype" property="paytype"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="systime" property="systime"/>
+        <association property="user" javaType="user">
+            <id column="user_id" property="id"/>
+            <result column="username" property="username"/>
+        </association>
+        <collection property="itemList" ofType="item">
+            <id column="item_id" property="id"/>
+            <result column="price" property="price"/>
+            <result column="iAmount" property="amount"/>
+            <association property="good" javaType="good">
+                <id column="good_id" property="id"/>
+                <id column="gName" property="name"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="getOrderList" resultMap="orderMap">
+       select i.order_id,o.total,o.amount,o.status,o.paytype,o.name,o.phone,o.address,o.systime,o.user_id,u.username,i.id item_id,i.price,i.amount iAmount,i.good_id,g.name gName from orders o left join items i left join goods g on g.id = i.good_id on i.order_id = o.id, users u where o.user_id = u.id
+   </select>
+
+    <select id="getListByStatus" parameterType="byte" resultMap="orderMap">
+       select i.order_id,o.total,o.amount,o.status,o.paytype,o.name,o.phone,o.address,o.systime,o.user_id,u.username,i.id item_id,i.price,i.amount iAmount,i.good_id,g.name gName from orders o left join items i left join goods g on g.id = i.good_id on i.order_id = o.id, users u where o.user_id = u.id and o.status = #{status}
+   </select>
+
+    <select id="selectOrderByUsernameOrTime" parameterType="string" resultMap="orderMap">
+        select
+        i.order_id,o.total,o.amount,o.status,o.paytype,o.name,o.phone,o.address,o.systime,o.user_id,u.username,i.id
+        item_id,i.price,i.amount iAmount,i.good_id,g.name gName from orders o left join items i left join goods g on
+        g.id = i.good_id on i.order_id = o.id, users u where o.user_id = u.id
+        <if test="username != null and username.trim().length() > 0">
+            and u.username like "%"#{username}"%"
+        </if>
+        <if test="start_time != null and start_time.trim().length() > 0">
+            and o.systime >= #{start_time}
+        </if>
+        <if test="end_time != null and end_time.trim().length() > 0">
+            and #{end_time} >= o.systime
+        </if>
+    </select>
+
+    <select id="selectOrderByMore" resultMap="orderMap">
+        select
+        i.order_id,o.total,o.amount,o.status,o.paytype,o.name,o.phone,o.address,o.systime,o.user_id,u.username,i.id
+        item_id,i.price,i.amount iAmount,i.good_id,g.name gName from orders o left join items i left join goods g on
+        g.id = i.good_id on i.order_id = o.id, users u where o.user_id = u.id
+        <if test="status != -1">
+            and o.status = #{status}
+        </if>
+        <if test="username != null and username.trim().length() > 0">
+            and u.username like "%"#{username}"%"
+        </if>
+        <if test="start_time != null and start_time.trim().length() > 0">
+            and o.systime >= #{start_time}
+        </if>
+        <if test="end_time != null and end_time.trim().length() > 0">
+            and #{end_time} >= o.systime
+        </if>
+    </select>-->
+
+</mapper>

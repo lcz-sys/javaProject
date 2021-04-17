@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.gdcp.dao.UserMapper">
+    
+    <sql id="selectUser">select * from user</sql>
+    
+    <select id="findByIds" resultType="user" parameterType="int">
+        <include refid="selectUser"/>
+        <where>
+            <foreach collection="list" open="id in(" item="id" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+    
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+
+    <select id="findByCondition" parameterType="user" resultType="user">
+        select * from user
+        <where>
+            <if test="id!=null">
+                id = #{id}
+            </if>
+            <if test="username!=null">
+                and username = #{username}
+            </if>
+            <if test="password!=null">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="user">
+        select * from user where id = #{id}
+    </select>
+
+    <insert id="save" parameterType="user">
+        insert into user values(#{id},#{username},#{password})
+    </insert>
+
+    <update id="editPass" parameterType="user">
+        update user set password = #{password} where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from user where id = #{id}
+    </delete>
+</mapper>

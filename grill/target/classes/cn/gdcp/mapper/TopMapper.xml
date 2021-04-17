@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gdcp.mapper.TopMapper">
+
+    <resultMap id="topMap" type="top">
+        <id column="top_id" property="id"/>
+        <result column="good_id" property="goodId"/>
+        <association property="good" javaType="good">
+            <id column="gId" property="id"/>
+            <result column="name" property="name"/>
+            <result column="cover" property="cover"/>
+            <result column="intro" property="intro"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllTop" resultMap="topMap">
+        select t.id top_id,t.good_id,g.id gId,g.cover,g.name,g.intro from tops t, goods g where t.good_id = g.id
+    </select>
+
+    <delete id="delete" parameterType="int">
+        delete from tops where id = #{id}
+    </delete>
+
+    <insert id="add" parameterType="top" useGeneratedKeys="true" keyProperty="id">
+        insert into tops (id,good_id) values (#{id},#{goodId})
+    </insert>
+
+    <insert id="upGood" parameterType="int" useGeneratedKeys="true" keyProperty="id">
+        insert into tops (id,good_id) values (null,#{id})
+    </insert>
+
+    <delete id="downGood" parameterType="int">
+        delete from tops where good_id = #{id}
+    </delete>
+
+    <select id="selectByGoodId" resultType="top">
+        select * from tops where good_id = #{goodId}
+    </select>
+
+</mapper>

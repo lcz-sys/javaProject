@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/gdcp_ssm" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/gdcp_spring_aop/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_spring_ioc/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_spring_ioc_anno/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_spring_jdbc/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_spring_mvc/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_spring_test/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_mybatis_quick/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_mybatis_config/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_mybatis_anno/pom.xml" />
+        <option value="$PROJECT_DIR$/gdcp_ssm/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/gdcp_spring_aop" />
+  </component>
+</project>

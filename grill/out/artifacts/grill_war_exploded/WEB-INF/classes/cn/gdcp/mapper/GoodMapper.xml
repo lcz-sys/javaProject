@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gdcp.mapper.GoodMapper">
+
+    <resultMap id="goodBaseMap" type="good">
+        <id column="id" property="id"/>
+        <result column="cover" property="cover"/>
+        <result column="name" property="name"/>
+        <result column="intro" property="intro"/>
+        <result column="spec" property="spec"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="sales" property="sales"/>
+        <result column="content" property="content"/>
+        <result column="type_id" property="typeId"/>
+    </resultMap>
+
+    <resultMap id="goodMap" extends="goodBaseMap" type="good">
+        <association property="type" javaType="type" column="type_id" select="queryType"/>
+        <association property="top" javaType="top" column="id" select="queryTop"/>
+    </resultMap>
+
+    <select id="queryType" parameterType="int" resultType="type">
+        select * from types where id = #{id}
+    </select>
+
+    <select id="queryTop" parameterType="int" resultType="top">
+        select * from tops where good_id = #{id}
+    </select>
+
+    <select id="findAllGoods" resultMap="goodMap">
+        select * from goods
+    </select>
+
+    <select id="getNewGoods" resultMap="goodMap">
+        select * from goods order by id desc
+    </select>
+
+    <select id="get" resultMap="goodMap">
+        select * from goods where id = #{id}
+    </select>
+
+    <select id="selectListByType" resultMap="goodMap">
+        select * from goods where type_id = #{typeId} order by id desc
+    </select>
+
+    <select id="selectGoodByName" parameterType="string" resultMap="goodMap">
+        select * from goods
+        <where>
+            <if test="name != null and name.trim().length() > 0">
+                name like "%"#{name}"%"
+            </if>
+        </where>
+    </select>
+
+    <select id="getListByTop" resultMap="goodBaseMap">
+        select * from goods g join tops t on t.good_id = g.id order by t.id desc limit #{begin},#{size}
+    </select>
+
+    <select id="getListByTops" resultMap="goodBaseMap">
+        select * from goods g join tops t on t.good_id = g.id order by t.id desc
+    </select>
+
+    <select id="getListOrderSale" resultMap="goodBaseMap">
+       select * from goods order by sales desc limit #{begin},#{size}
+    </select>
+
+    <select id="getListOrderSales" resultMap="goodBaseMap">
+       select * from goods order by sales desc
+    </select>
+
+    <select id="getListByType" resultMap="goodBaseMap">
+        select * from goods where type_id = #{typeId} order by id desc limit #{begin}, #{size}
+    </select>
+
+    <select id="getList" resultMap="goodBaseMap">
+        select * from goods order by id desc limit #{begin}, #{size}
+    </select>
+
+    <update id="updateStock">
+        update goods set stock = stock - #{stock} where id = #{id}
+    </update>
+
+    <update id="updateSales">
+        update goods set sales = sales + #{sales} where id = #{id}
+    </update>
+
+    <!--<resultMap id="goodMap" type="good">
+        <id column="gId" property="id"/>
+        <result column="cover" property="cover"/>
+        <result column="name" property="name"/>
+        <result column="intro" property="intro"/>
+        <result column="spec" property="spec"/>
+        <result column="price" property="price"/>
+        <result column="stock" property="stock"/>
+        <result column="sales" property="sales"/>
+        <result column="content" property="content"/>
+        <association property="type" javaType="type">
+            <id column="typeId" property="id"/>
+            <id column="tName" property="name"/>
+            <id column="num" property="num"/>
+        </association>
+        <association property="top" javaType="top">
+            <id column="topId" property="id"/>
+            <result column="goodId" property="goodId"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllGoods" resultMap="goodMap">
+        SELECT g.id gId,g.name,g.intro,g.cover,g.spec,g.price,g.stock,g.sales,g.content,tops.id topId,tops.good_id goodId,t.id typeId,t.name tName,t.num FROM goods g LEFT JOIN tops ON g.id =tops.good_id, TYPES t WHERE t.id = g.type_id
+    </select>
+
+    <select id="get" parameterType="int" resultMap="goodMap">
+        SELECT g.id gId,g.name,g.intro,g.cover,g.spec,g.price,g.stock,g.sales,g.content,tops.id topId,tops.good_id goodId,t.id typeId,t.name tName,t.num FROM goods g LEFT JOIN tops ON g.id =tops.good_id, TYPES t WHERE t.id = g.type_id and g.id = #{id}
+    </select>
+
+    <select id="selectGoodByName" parameterType="string" resultMap="goodMap">
+        SELECT g.id gId,g.name,g.intro,g.cover,g.spec,g.price,g.stock,g.sales,g.content,tops.id topId
+        ,tops.good_id goodId,t.id typeId,t.name tName,t.num FROM goods g LEFT JOIN tops ON g.id =tops.good_id,
+        TYPES t WHERE t.id = g.type_id
+        <if test="name != null and name.trim().length() > 0">
+            and g.name like "%"#{name}"%"
+        </if>
+    </select>-->
+
+    <insert id="addGood" parameterType="good" useGeneratedKeys="true" keyProperty="id">
+        insert into goods (id,cover,name,intro,spec,price,stock,sales,content,type_id) values (#{id},#{cover},#{name},#{intro},#{spec},#{price},#{stock},#{sales},#{content},#{typeId})
+    </insert>
+
+    <update id="updateGood" parameterType="good">
+        update goods set
+        <if test="cover!=null">
+            cover = #{cover}
+        </if>
+        <if test="name!=null">
+            , name = #{name}
+        </if>
+        <if test="intro!=null">
+            , intro = #{intro}
+        </if>
+        <if test="spec!=null">
+            , spec = #{spec}
+        </if>
+        <if test="price!=null">
+            , price = #{price}
+        </if>
+        <if test="stock!=null">
+            , stock = #{stock}
+        </if>
+        <if test="sales!=null">
+            , sales = #{sales}
+        </if>
+        <if test="content!=null">
+            , content = #{content}
+        </if>
+        <if test="typeId!=null">
+            , type_id = #{typeId}
+        </if>
+        <where>
+            <if test="id!=null">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteGood" parameterType="int">
+        delete from goods where id = #{id}
+    </delete>
+
+</mapper>

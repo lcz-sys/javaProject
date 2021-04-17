@@ -1,0 +1,3 @@
+2020-07-02 20:21:23,418 INFO [org.springframework.web.context.support.XmlWebApplicationContext] - Closing WebApplicationContext for namespace 'springMvc-servlet': startup date [Thu Jul 02 20:20:40 CST 2020]; parent: Root WebApplicationContext
+2020-07-02 20:21:23,426 INFO [org.springframework.web.context.support.XmlWebApplicationContext] - Closing Root WebApplicationContext: startup date [Thu Jul 02 20:20:35 CST 2020]; root of context hierarchy
+2020-07-02 20:21:23,439 INFO [com.alibaba.druid.pool.DruidDataSource] - {dataSource-1} closed

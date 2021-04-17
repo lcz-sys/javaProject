@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="gdcp_mybatis_config" />
+        <module name="gdcp_mybatis_quick" />
+        <module name="gdcp_spring_jdbc" />
+        <module name="gdcp_spring_ioc" />
+        <module name="gdcp_spring_aop" />
+        <module name="gdcp_spring_mvc" />
+        <module name="gdcp_mybatis_anno" />
+        <module name="gdcp_spring_test" />
+        <module name="gdcp_ssm" />
+        <module name="gdcp_spring_ioc_anno" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gdcp_mybatis_anno" target="1.5" />
+      <module name="gdcp_mybatis_config" target="1.5" />
+      <module name="gdcp_mybatis_quick" target="1.5" />
+      <module name="gdcp_spring_aop" target="1.5" />
+      <module name="gdcp_spring_ioc" target="1.5" />
+      <module name="gdcp_spring_ioc_anno" target="1.5" />
+      <module name="gdcp_spring_jdbc" target="1.5" />
+      <module name="gdcp_spring_mvc" target="1.5" />
+      <module name="gdcp_spring_test" target="1.5" />
+      <module name="gdcp_ssm" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gdcp.mapper.ItemMapper">
+
+    <select id="selectList" resultType="item">
+        select * from items where order_id=#{orderId}
+    </select>
+
+    <insert id="insert" parameterType="item" useGeneratedKeys="true" keyProperty="id">
+       insert into items(price,amount,order_id,good_id)values(#{price},#{amount},#{orderId},#{goodId})
+    </insert>
+
+</mapper>
